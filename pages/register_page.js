@@ -7,7 +7,7 @@ exports.RegisterPage = class RegisterPage{
         this.email_field = page.locator('//*[@id="root"]/div/div/div/form/div[2]/input');
         this.password_field = page.locator('//*[@id="root"]/div/div/div/form/div[3]/input');
         this.create_account_btn = page.locator('//*[@id="root"]/div/div/div/form/button');
-
+        this.successMessageSelector = '#root > div > div > div > div.CheckEmailPage_wrapper__ym3em > div.ContentMessage_header__Vwy9L';
     }
 
     async open_registration_page() {
@@ -62,7 +62,12 @@ exports.RegisterPage = class RegisterPage{
 
     async create_supplier_account2() {
         this.create_account_btn.click();
-        await this.page.waitForTimeout(1000);
+        try {
+            await this.page.waitForURL('https://dev.abra-market.com/register/check_email', { timeout: 10000 });
+            await this.page.waitForSelector(this.successMessageSelector, { timeout: 10000 });
+          } catch (e) {
+            console.log('Регистрация прошла неудачно или ожидания не сработали в отведённое время:', e);
+          }
     }
 
 }

@@ -9,7 +9,7 @@ test('registration_positive', async ({page}) => {
     await Register.click_sign_up_supplier();
     await Register.fill_email();
     await Register.fill_password();
-    await Register.create_supplier_account();
+    await Register.create_supplier_account2();
     // await expect(page).toHaveURL('/check_email$/');
     await expect(page).toHaveURL('https://dev.abra-market.com/register/check_email');
     // await expect(page).getByText('A link for sign up has been sent to your email address.').toBeVisible();
