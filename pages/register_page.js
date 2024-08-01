@@ -13,9 +13,7 @@ exports.RegisterPage = class RegisterPage{
         this.page.goto('https://dev.abra-market.com/register');
         // Ожидание, пока страница полностью загрузится
         await this.page.waitForLoadState('load');
-        // await this.page.waitForTimeout(timeOut);
-        // await page.getByText("I'm here to sell").toBeVisible();
-        // await this.page.waitForSelector('#root > div > div > div > form > div.RegisterForm_buttons_container_user_role__odHqW > button.Button_button__-\+nph.Button_black__dV9Cl.RegisterForm_button_user_role__ax6bX');
+        await this.page.waitForTimeout(timeOut);
     }
 
     async click_sign_up_supplier() {
@@ -25,7 +23,7 @@ exports.RegisterPage = class RegisterPage{
 
     async fill_email() {
         this.email_field.focus();
-        this.email_field.fill('anarsqqwetasrtiaya@gmail.com');
+        this.email_field.fill('anewaewqweeoiuyttya@gmail.com');
         await this.page.waitForTimeout(timeOut);
     }
 
