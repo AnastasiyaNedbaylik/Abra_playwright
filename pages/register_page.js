@@ -1,4 +1,4 @@
-import { generateRandomEmail } from '../utils/utils';
+import { generateRandomEmail, generateRandomPassword } from '../utils/utils';
 
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
@@ -43,8 +43,10 @@ exports.RegisterPage = class RegisterPage{
     }
 
     async fill_password() {
+        const randomPassword = generateRandomPassword();
+        console.log('Generated password:', randomPassword);
         this.password_field.focus();
-        this.password_field.fill('Bobo123456!');
+        this.password_field.fill(randomPassword);
         await this.page.waitForTimeout(300);
     }
     
