@@ -1,4 +1,5 @@
 const timeOut = 300;
+
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
         this.page = page;
@@ -21,9 +22,9 @@ exports.RegisterPage = class RegisterPage{
         await this.page.waitForTimeout(timeOut);
     }
 
-    async fill_email() {
+    async fill_email(email) {
         this.email_field.focus();
-        this.email_field.fill('anewaewqweeoiuyttya@gmail.com');
+        this.email_field.fill(email);
         await this.page.waitForTimeout(timeOut);
     }
 
@@ -50,3 +51,4 @@ exports.RegisterPage = class RegisterPage{
     }
 
 }
+
