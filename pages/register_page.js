@@ -1,4 +1,4 @@
-const timeOut = 300;
+import { generateRandomEmail } from '../utils/utils';
 
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
@@ -14,30 +14,38 @@ exports.RegisterPage = class RegisterPage{
         this.page.goto('https://dev.abra-market.com/register');
         // Ожидание, пока страница полностью загрузится
         await this.page.waitForLoadState('load');
-        await this.page.waitForTimeout(timeOut);
+        await this.page.waitForTimeout(300);
     }
 
     async click_sign_up_supplier() {
         this.sign_up_supplier.click();
-        await this.page.waitForTimeout(timeOut);
+        await this.page.waitForTimeout(300);
     }
 
-    async fill_email(email) {
+    async fill_email() {
+        const randomEmail = generateRandomEmail();
+        console.log('Generated email address:', randomEmail);
+        this.email_field.focus();
+        this.email_field.fill(randomEmail);
+        await this.page.waitForTimeout(300);
+    }
+
+    async fill_email2(email) {
         this.email_field.focus();
         this.email_field.fill(email);
-        await this.page.waitForTimeout(timeOut);
+        await this.page.waitForTimeout(100);
     }
 
     async fil_email_with_invalid_email() {
         this.login_field.focus();
         this.login_field.fill('testgmail.com');
-        await this.page.waitForTimeout(timeOut);
+        await this.page.waitForTimeout(300);
     }
 
     async fill_password() {
         this.password_field.focus();
         this.password_field.fill('Bobo123456!');
-        await this.page.waitForTimeout(timeOut);
+        await this.page.waitForTimeout(300);
     }
     
     async fill_password_invalid() {
@@ -48,6 +56,11 @@ exports.RegisterPage = class RegisterPage{
     async create_supplier_account() {
         this.create_account_btn.click();
         await this.page.waitForTimeout(500);
+    }
+
+    async create_supplier_account2() {
+        this.create_account_btn.click();
+        await this.page.waitForTimeout(1000);
     }
 
 }

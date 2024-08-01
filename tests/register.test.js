@@ -29,9 +29,9 @@ test('open temporary email and parse registration link', async ({ page }) => {
     // Открыть сайт и зарегистрироваться
     await Registration.open_registration_page();
     await Registration.click_sign_up_supplier();
-    await Registration.fill_email(emailAddress);
+    await Registration.fill_email2(emailAddress);
     await Registration.fill_password();
-    await Registration.create_supplier_account();
+    await Registration.create_supplier_account2();
     await expect(page).toHaveURL('https://dev.abra-market.com/register/check_email');
   
     // Ожидание письма в почтовом ящике
