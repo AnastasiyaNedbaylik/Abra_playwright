@@ -54,4 +54,3 @@ test('open temporary email and parse registration link', async ({ page }) => {
     console.log('Test completed: Email confirmed.');
 });
 
-
