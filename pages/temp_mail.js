@@ -74,5 +74,3 @@ exports.TempMailPage = class TempMailPage {
 
 
 
-
-
