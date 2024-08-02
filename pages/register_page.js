@@ -71,3 +71,4 @@ exports.RegisterPage = class RegisterPage{
     }
 
 }
+
