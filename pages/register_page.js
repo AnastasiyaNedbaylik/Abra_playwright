@@ -1,4 +1,6 @@
-import { generateRandomEmail, generateRandomPassword } from '../utils/utils';
+const { expect } = require('@playwright/test')
+import { generateRandomEmail, generateRandomPassword, invalidEmails } from '../utils/utils';
+
 
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
@@ -36,10 +38,17 @@ exports.RegisterPage = class RegisterPage{
         await this.page.waitForTimeout(100);
     }
 
-    async fil_email_with_invalid_email() {
-        this.login_field.focus();
-        this.login_field.fill('testgmail.com');
-        await this.page.waitForTimeout(300);
+    async fill_email_with_invalid_emails(invalidEmails) {
+        for (const email of invalidEmails) {
+            console.log(`Testing with email: ${email}`);
+            await this.email_field.focus();
+            await this.email_field.fill(email);
+            await this.page.waitForTimeout(300);
+            await this.fill_password();
+            await expect(this.page.getByText('Invalid email')).toBeVisible();
+            await this.expectCreateAccountButtonDisabled();
+            await this.page.waitForTimeout(300); 
+        }
     }
 
     async fill_password() {
@@ -70,4 +79,7 @@ exports.RegisterPage = class RegisterPage{
           }
     }
 
+    async expectCreateAccountButtonDisabled() {
+        await expect(this.create_account_btn).toBeDisabled();
+    }
 }

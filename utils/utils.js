@@ -31,3 +31,11 @@ export function generateRandomPassword() {
   
     return password.split('').sort(() => 0.5 - Math.random()).join(''); // Перемешиваем символы для случайного порядка
   }
+
+  export const invalidEmails = [
+    'plainaddress',
+    '@missingusername.com',
+    'username@.com',
+    'username@domain..com',
+    'username@domain.com@extra'
+  ];

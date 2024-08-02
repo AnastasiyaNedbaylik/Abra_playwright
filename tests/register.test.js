@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test')
 const { RegisterPage } = require('../pages/register_page')
 const { TempMailPage } = require('../pages/temp_mail')
+import { invalidEmails } from '../utils/utils';
 
 test('registration_positive', async ({page}) => {
     const Register = new RegisterPage(page);
@@ -47,9 +48,19 @@ test('open temporary email and parse registration link', async ({ page }) => {
     await page.goto(registrationLink);
   
     // Продолжить тестирование на странице регистрации...
-    await page.waitForTimeout(5000); // Уменьшено время ожидания до 5 секунд
+    await page.waitForTimeout(5000); 
     await expect(page.locator('text=Email confirmed.')).toBeVisible();
 
     // Сообщение в консоль после успешного теста
     console.log('Test completed: Email confirmed.');
+});
+
+test('register with invalid email', async ({ page }) => {
+    const register = new RegisterPage(page);
+
+    await register.open_registration_page();
+    await register.click_sign_up_supplier();
+    await register.fill_email_with_invalid_emails(invalidEmails);
+    await register.fill_password();
+    await expect(page).toHaveURL('https://dev.abra-market.com/register');
 });
