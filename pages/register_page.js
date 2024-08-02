@@ -47,7 +47,7 @@ exports.RegisterPage = class RegisterPage{
         console.log('Generated password:', randomPassword);
         this.password_field.focus();
         this.password_field.fill(randomPassword);
-        await this.page.waitForTimeout(300);
+        await this.page.waitForTimeout(200);
     }
     
     async fill_password_invalid() {
