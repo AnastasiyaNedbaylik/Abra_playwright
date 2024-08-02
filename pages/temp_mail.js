@@ -71,6 +71,3 @@ exports.TempMailPage = class TempMailPage {
     throw new Error('Registration link was not found in the email');
   }
 }
-
-
-
