@@ -1,85 +1,90 @@
 const { expect } = require('@playwright/test')
-import { generateRandomEmail, generateRandomPassword, invalidEmails } from '../utils/utils';
+import { generateRandomEmail, generateRandomPassword } from '../utilities/data';
+import { selectors } from '../locators/register_page';
+import { urls } from '../utilities/settings';
 
 
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
         this.page = page;
-        this.sign_up_supplier = page.locator('//*[@id="root"]/div/div/div/form/div[1]/button[2]');
-        this.email_field = page.locator('//*[@id="root"]/div/div/div/form/div[2]/input');
-        this.password_field = page.locator('//*[@id="root"]/div/div/div/form/div[3]/input');
-        this.create_account_btn = page.locator('//*[@id="root"]/div/div/div/form/button');
-        this.successMessageSelector = '#root > div > div > div > div.CheckEmailPage_wrapper__ym3em > div.ContentMessage_header__Vwy9L';
-    }
+        this.sign_up_supplier = page.locator(selectors.signUpSupplierButton);
+        this.email_field = page.locator(selectors.emailField);
+        this.password_field = page.locator(selectors.passwordField);
+        this.create_account_btn = page.locator(selectors.createAccountButton);
+        this.successMessageSelector = selectors.successMessageSelector;
+      }
 
-    async open_registration_page() {
-        this.page.goto('https://dev.abra-market.com/register');
+      async open_registration_page() {
+        await this.page.goto(urls.registrationPage);
         // Ожидание, пока страница полностью загрузится
         await this.page.waitForLoadState('load');
         await this.page.waitForTimeout(300);
-    }
-
-    async click_sign_up_supplier() {
-        this.sign_up_supplier.click();
+      }
+    
+      async click_sign_up_supplier() {
+        await this.sign_up_supplier.click();
         await this.page.waitForTimeout(300);
-    }
-
-    async fill_email() {
+      }
+    
+      // Использование рандомного email
+      async fill_email() {
         const randomEmail = generateRandomEmail();
         console.log('Generated email address:', randomEmail);
-        this.email_field.focus();
-        this.email_field.fill(randomEmail);
+        await this.email_field.focus();
+        await this.email_field.fill(randomEmail);
         await this.page.waitForTimeout(300);
-    }
-
-    async fill_email2(email) {
-        this.email_field.focus();
-        this.email_field.fill(email);
+      }
+    
+      async fill_email_to_get_invite_link(email) {
+        await this.email_field.focus();
+        await this.email_field.fill(email);
         await this.page.waitForTimeout(100);
-    }
-
-    async fill_email_with_invalid_emails(invalidEmails) {
-        for (const email of invalidEmails) {
-            console.log(`Testing with email: ${email}`);
-            await this.email_field.focus();
-            await this.email_field.fill(email);
-            await this.page.waitForTimeout(300);
-            await this.fill_password();
-            await expect(this.page.getByText('Invalid email')).toBeVisible();
-            await this.expectCreateAccountButtonDisabled();
-            await this.page.waitForTimeout(300); 
-        }
-    }
-
-    async fill_password() {
+      }
+    
+      //Использование рандомного валидного пароля
+      async fill_password() {
         const randomPassword = generateRandomPassword();
         console.log('Generated password:', randomPassword);
-        this.password_field.focus();
-        this.password_field.fill(randomPassword);
+        await this.password_field.focus();
+        await this.password_field.fill(randomPassword);
         await this.page.waitForTimeout(200);
-    }
+      }
+        
+      async fill_email_with_invalid_emails(invalidEmails) {
+        for (const email of invalidEmails) {
+          console.log(`Testing with email: ${email}`);
+          await this.email_field.focus();
+          await this.email_field.fill(email);
+          await this.page.waitForTimeout(300);
+          await this.fill_password();
+          await expect(this.page.getByText('Invalid email')).toBeVisible();
+          await this.expectCreateAccountButtonDisabled();
+          await expect(this.page).toHaveURL(urls.registrationPage);
+          await this.page.waitForTimeout(300); 
+        }
+      }
     
-    async fill_password_invalid() {
-        this.password_field.focus();
-        this.password_field.fill('qwerty');
-    }
-
-    async create_supplier_account() {
-        this.create_account_btn.click();
+      async fill_password_invalid() {
+        await this.password_field.focus();
+        await this.password_field.fill('qwerty');
+      }
+    
+      async create_supplier_account() {
+        await this.create_account_btn.click();
         await this.page.waitForTimeout(500);
-    }
-
-    async create_supplier_account2() {
-        this.create_account_btn.click();
+      }
+    
+      async create_supplier_account2() {
+        await this.create_account_btn.click();
         try {
-            await this.page.waitForURL('https://dev.abra-market.com/register/check_email', { timeout: 10000 });
-            await this.page.waitForSelector(this.successMessageSelector, { timeout: 10000 });
-          } catch (e) {
-            console.log('Регистрация прошла неудачно или ожидания не сработали в отведённое время:', e);
-          }
-    }
-
-    async expectCreateAccountButtonDisabled() {
+          await this.page.waitForURL(urls.checkEmailPage, { timeout: 10000 });
+          await this.page.waitForSelector(this.successMessageSelector, { timeout: 10000 });
+        } catch (e) {
+          console.log('Registration failed or expectations were not met within the allotted time:', e);
+        }
+      }
+    
+      async expectCreateAccountButtonDisabled() {
         await expect(this.create_account_btn).toBeDisabled();
+      }
     }
-}

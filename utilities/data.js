@@ -32,6 +32,7 @@ export function generateRandomPassword() {
     return password.split('').sort(() => 0.5 - Math.random()).join(''); // Перемешиваем символы для случайного порядка
   }
 
+  // Список невалидных emails
   export const invalidEmails = [
     'plainaddress',
     '@missingusername.com',

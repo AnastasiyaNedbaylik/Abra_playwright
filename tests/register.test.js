@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test')
 const { RegisterPage } = require('../pages/register_page')
-const { TempMailPage } = require('../pages/temp_mail')
-import { invalidEmails } from '../utils/utils';
+const { TempMailPage } = require('../utilities/temp_mail')
+import { invalidEmails } from '../utilities/data';
 
 test('registration_positive', async ({page}) => {
     const Register = new RegisterPage(page);
@@ -31,7 +31,7 @@ test('open temporary email and parse registration link', async ({ page }) => {
     // Открыть сайт и зарегистрироваться
     await registration.open_registration_page();
     await registration.click_sign_up_supplier();
-    await registration.fill_email2(emailAddress);
+    await registration.fill_email_to_get_invite_link(emailAddress);
     await registration.fill_password();
     await registration.create_supplier_account2();
     await expect(page).toHaveURL('https://dev.abra-market.com/register/check_email');
@@ -57,10 +57,8 @@ test('open temporary email and parse registration link', async ({ page }) => {
 
 test('register with invalid email', async ({ page }) => {
     const register = new RegisterPage(page);
-
+  
     await register.open_registration_page();
     await register.click_sign_up_supplier();
     await register.fill_email_with_invalid_emails(invalidEmails);
-    await register.fill_password();
-    await expect(page).toHaveURL('https://dev.abra-market.com/register');
 });
