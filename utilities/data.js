@@ -40,3 +40,22 @@ export function generateRandomPassword() {
     'username@domain..com',
     'username@domain.com@extra'
   ];
+
+  // Список невалидных password
+  export const invalidPasswords = [
+    'onlylowercaseletters',
+    'ONLYUPPERCASELETTERS',
+    'OnlyLetters',
+    '12345678',
+    'lettersand123',
+    'LETTERS123',
+    'LettersAnd123',
+    '!#*+$!#*+$',
+    'lettersand!#*+$',
+    'LETTERS!#*+$',
+    'Lettersand!#*+$',
+    '12345678!#*+$',
+      // Менее 8 символов
+    'Pwd1!', 
+    'H1e!+'
+  ];

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test')
 const { RegisterPage } = require('../pages/register_page')
 const { TempMailPage } = require('../utilities/temp_mail')
-import { invalidEmails } from '../utilities/data';
+import { invalidEmails, invalidPasswords } from '../utilities/data';
 import { urls } from '../utilities/settings';
 
 test('registration_positive', async ({page}) => {
@@ -62,3 +62,10 @@ test('register with invalid email', async ({ page }) => {
     await register.click_sign_up_supplier();
     await register.fill_email_with_invalid_emails(invalidEmails);
 });
+
+test('register with invalid password', async ({page}) => {
+    const register = new RegisterPage(page);
+    await register.open_registration_page();
+    await register.click_sign_up_supplier();
+    await register.fill_password_invalid(invalidPasswords);
+})

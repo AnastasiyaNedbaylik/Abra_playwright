@@ -52,21 +52,30 @@ exports.RegisterPage = class RegisterPage{
         
       async fill_email_with_invalid_emails(invalidEmails) {
         for (const email of invalidEmails) {
-          console.log(`Testing with email: ${email}`);
-          await this.email_field.focus();
-          await this.email_field.fill(email);
-          await this.page.waitForTimeout(300);
-          await this.fill_password();
-          await expect(this.page.getByText('Invalid email')).toBeVisible();
-          await this.expectCreateAccountButtonDisabled();
-          await expect(this.page).toHaveURL(urls.registrationPage);
-          await this.page.waitForTimeout(300); 
+            console.log(`Testing with email: ${email}`);
+            await this.email_field.focus();
+            await this.email_field.fill(email);
+            await this.page.waitForTimeout(300);
+            await this.fill_password();
+            await expect(this.page.getByText('Invalid email')).toBeVisible();
+            await this.expectCreateAccountButtonDisabled();
+            await expect(this.page).toHaveURL(urls.registrationPage);
+            await this.page.waitForTimeout(300); 
         }
       }
     
-      async fill_password_invalid() {
-        await this.password_field.focus();
-        await this.password_field.fill('qwerty');
+      async fill_password_invalid(invalidPasswords) {
+        for (const password of invalidPasswords) {
+            await this.fill_email();
+            console.log(`Testing with password: ${password}`);
+            await this.password_field.focus();
+            await this.password_field.fill(password);
+            await this.page.waitForTimeout(300);
+            await expect(this.page.getByText('Password must match the next requirements')).toBeVisible();
+            await this.expectCreateAccountButtonDisabled();
+            await expect(this.page).toHaveURL(urls.registrationPage);
+            await this.page.waitForTimeout(300);
+        }
       }
     
       async create_supplier_account() {
