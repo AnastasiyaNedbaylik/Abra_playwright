@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test')
 const { RegisterPage } = require('../pages/register_page')
 const { TempMailPage } = require('../utilities/temp_mail')
 import { invalidEmails } from '../utilities/data';
+import { urls } from '../utilities/settings';
 
 test('registration_positive', async ({page}) => {
     const Register = new RegisterPage(page);
@@ -12,7 +13,7 @@ test('registration_positive', async ({page}) => {
     await Register.fill_password();
     await Register.create_supplier_account2();
     // await expect(page).toHaveURL('/check_email$/');
-    await expect(page).toHaveURL('https://dev.abra-market.com/register/check_email');
+    await expect(page).toHaveURL(urls.checkEmailPage);
     // await expect(page).getByText('A link for sign up has been sent to your email address.').toBeVisible();
 })
 
@@ -25,16 +26,15 @@ test('open temporary email and parse registration link', async ({ page }) => {
     const emailAddress = await tempMail.createTemporaryEmail();
     console.log('Temporary email address:', emailAddress);
   
-    // Создаем экземпляр страницы регистрации
+    // Регистрируемся на сайте
     const registration = new RegisterPage(page);
   
-    // Открыть сайт и зарегистрироваться
     await registration.open_registration_page();
     await registration.click_sign_up_supplier();
     await registration.fill_email_to_get_invite_link(emailAddress);
     await registration.fill_password();
     await registration.create_supplier_account2();
-    await expect(page).toHaveURL('https://dev.abra-market.com/register/check_email');
+    await expect(page).toHaveURL(urls.checkEmailPage);
   
     // Ожидание письма в почтовом ящике
     const emailBody = await tempMail.waitForEmail();
