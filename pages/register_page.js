@@ -26,8 +26,14 @@ exports.RegisterPage = class RegisterPage{
         await this.page.waitForTimeout(300);
       }
     
+      async fill_email(email) {
+        await this.email_field.focus();
+        await this.email_field.fill(email);
+        await this.page.waitForTimeout(300);
+      }
+
       // Использование рандомного email
-      async fill_email() {
+      async fill_email_valid() {
         const randomEmail = generateRandomEmail();
         console.log('Generated email address:', randomEmail);
         await this.email_field.focus();
@@ -66,7 +72,7 @@ exports.RegisterPage = class RegisterPage{
     
       async fill_password_invalid(invalidPasswords) {
         for (const password of invalidPasswords) {
-            await this.fill_email();
+            await this.fill_email_valid();
             console.log(`Testing with password: ${password}`);
             await this.password_field.focus();
             await this.password_field.fill(password);
@@ -78,6 +84,15 @@ exports.RegisterPage = class RegisterPage{
         }
       }
     
+    //   async register_with_existing_email(existingEmail) {
+    //     console.log(`Attempting to register with existing email: ${existingEmail}`);
+    //     await this.email_field.focus();
+    //     await this.email_field.fill(existingEmail);
+    //     await this.fill_password(generateRandomPassword());
+    //     await this.create_supplier_account();
+    //     await expect(this.page.getByText('Email is already registered')).toBeVisible();
+    //   }
+
       async create_supplier_account() {
         await this.create_account_btn.click();
         await this.page.waitForTimeout(500);
@@ -95,5 +110,16 @@ exports.RegisterPage = class RegisterPage{
     
       async expectCreateAccountButtonDisabled() {
         await expect(this.create_account_btn).toBeDisabled();
+      }
+
+    async register_with_existing_email(existingEmail) {
+        console.log(`Attempting to register with existing email: ${existingEmail}`);
+        await this.open_registration_page();
+        await this.click_sign_up_supplier();
+        await this.email_field.focus();
+        await this.email_field.fill(existingEmail);
+        await this.fill_password(generateRandomPassword());
+        await this.create_supplier_account();
+        await expect(this.page.getByText('Email is already registered')).toBeVisible();
       }
     }

@@ -15,7 +15,7 @@ export function generateRandomPassword() {
     const lowerCase = 'abcdefghijklmnopqrstuvwxyz';
     const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
-    const specialChars = '!#*+$'; // Убрали символ /
+    const specialChars = '!#*+$'; //Remove symbol '/'s
   
     const allChars = lowerCase + upperCase + numbers + specialChars;
   
