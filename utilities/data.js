@@ -1,3 +1,5 @@
+const { faker } = require('@faker-js/faker');
+
 /**
  * Случайный адрес электронной почты.
  * @returns {string} Случайный адрес электронной почты.
@@ -59,3 +61,13 @@ export function generateRandomPassword() {
     'Pwd1!', 
     'H1e!+'
   ];
+
+/**
+ * Генерирует случайное имя.
+ * @returns {string} - Случайное имя.
+ */
+function generateRandomFirstName() {
+  return faker.name.firstName();
+}
+
+module.exports = { generateRandomFirstName };
