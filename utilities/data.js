@@ -7,7 +7,7 @@ const { faker } = require('@faker-js/faker');
 export function generateRandomEmail() {
     const randomString = Math.random().toString(36).substring(2, 15);
     return `${randomString}@example.com`;
-  }
+  };
 
   /**
  * Случайный пароль, соответствующий заданным требованиям.
@@ -32,7 +32,7 @@ export function generateRandomPassword() {
     }
   
     return password.split('').sort(() => 0.5 - Math.random()).join(''); // Перемешиваем символы для случайного порядка
-  }
+  };
 
   // Список невалидных emails
   export const invalidEmails = [
@@ -66,8 +66,23 @@ export function generateRandomPassword() {
  * Генерирует случайное имя.
  * @returns {string} - Случайное имя.
  */
-function generateRandomFirstName() {
+export function generateRandomFirstName() {
   return faker.name.firstName();
-}
+};
 
-module.exports = { generateRandomFirstName };
+/**
+* Генерирует случайную фамилию.
+* @returns {string} - Случайная фамилия.
+*/
+export function generateRandomLastName() {
+  return faker.name.lastName();
+};
+
+/**
+ * Генерирует случайный номер телефона без префикса.
+ * @returns {string} - Случайный номер телефона без префикса.
+ */
+export function generateRandomPhoneNumber() {
+  // Генерируем случайный номер телефона без префикса
+  return faker.phone.number('9########');
+};
