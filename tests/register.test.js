@@ -4,6 +4,7 @@ const { TempMailPage } = require('../utilities/temp_mail')
 import { invalidEmails, invalidPasswords } from '../utilities/data';
 import { urls } from '../utilities/settings';
 import { registerUser } from '../utilities/register_page/registration';
+const { register_and_login } = require('../utilities/login_page/login');
 
 
 test('registration_positive', async ({page}) => {
@@ -12,7 +13,7 @@ test('registration_positive', async ({page}) => {
     await Register.open_registration_page();
     await Register.click_sign_up_supplier();
     await Register.fill_email_valid();
-    await Register.fill_password();
+    await Register.fill_password_valid();
     await Register.create_supplier_account2();
     // await expect(page).toHaveURL('/check_email$/');
     await expect(page).toHaveURL(urls.checkEmailPage);
@@ -34,7 +35,7 @@ test('open temporary email and parse registration link', async ({ page }) => {
     await registration.open_registration_page();
     await registration.click_sign_up_supplier();
     await registration.fill_email_to_get_invite_link(emailAddress);
-    await registration.fill_password();
+    await registration.fill_password_valid();
     await registration.create_supplier_account2();
     await expect(page).toHaveURL(urls.checkEmailPage);
   
@@ -84,7 +85,7 @@ test('register without email', async ({page}) => {
     const register = new RegisterPage(page);
     await register.open_registration_page();
     await register.click_sign_up_supplier();
-    await register.fill_password();
+    await register.fill_password_valid();
     await register.expectCreateAccountButtonDisabled();
     await expect(page.getByText('Email is required')).toBeVisible();
 });
@@ -99,4 +100,9 @@ test('register with existing email', async ({ page }) => {
     await register.open_registration_page();
     await register.click_sign_up_supplier();
     await register.register_with_existing_email(existingEmail);
+});
+
+test('register and login with same credentials', async ({ page }) => {
+    const { email, password } = await register_and_login(page);
+    console.log(`Registered and logged in with email: ${email} and password: ${password}`);
 });

@@ -2,6 +2,7 @@ const { expect } = require('@playwright/test')
 import { generateRandomEmail, generateRandomPassword } from '../utilities/data';
 import { register_page } from '../locators/register_page';
 import { urls } from '../utilities/settings';
+import { login_page } from '../locators/login_page';
 
 
 exports.RegisterPage = class RegisterPage{
@@ -12,6 +13,7 @@ exports.RegisterPage = class RegisterPage{
         this.password_field = page.locator(register_page.passwordField);
         this.create_account_btn = page.locator(register_page.createAccountButton);
         this.successMessageSelector = register_page.successMessageSelector;
+        this.email_confirmed_page_login_link = page.locator(register_page.email_confirmed_page_login_link);
       }
 
       async open_registration_page() {
@@ -48,11 +50,17 @@ exports.RegisterPage = class RegisterPage{
       }
     
       //Использование рандомного валидного пароля
-      async fill_password() {
+      async fill_password_valid() {
         const randomPassword = generateRandomPassword();
         console.log('Generated password:', randomPassword);
         await this.password_field.focus();
         await this.password_field.fill(randomPassword);
+        await this.page.waitForTimeout(200);
+      }
+
+      async fill_password(password) {
+        await this.password_field.focus();
+        await this.password_field.fill(password);
         await this.page.waitForTimeout(200);
       }
         
@@ -62,7 +70,7 @@ exports.RegisterPage = class RegisterPage{
             await this.email_field.focus();
             await this.email_field.fill(email);
             await this.page.waitForTimeout(300);
-            await this.fill_password();
+            await this.fill_password_valid();
             await expect(this.page.getByText('Invalid email')).toBeVisible();
             await this.expectCreateAccountButtonDisabled();
             await expect(this.page).toHaveURL(urls.registrationPage);
@@ -113,4 +121,9 @@ exports.RegisterPage = class RegisterPage{
         await this.create_supplier_account();
         await expect(this.page.getByText('Email is already registered')).toBeVisible();
       }
+
+      async click_login_link_confirm_page() {
+        await this.email_confirmed_page_login_link.click();
+        await expect(this.page.locator(login_page.email_field)).toBeVisible();
+    }
     }

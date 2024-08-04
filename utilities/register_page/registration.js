@@ -25,4 +25,3 @@ export async function registerUser(page) {
     // Return the email used for registration
     return uniqueEmail;
 };
-
