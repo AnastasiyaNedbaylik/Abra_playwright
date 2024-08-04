@@ -84,5 +84,5 @@ export function generateRandomLastName() {
  */
 export function generateRandomPhoneNumber() {
   // Генерируем случайный номер телефона без префикса
-  return faker.phone.number('9########');
+  return faker.phone.number('9#########');
 };
