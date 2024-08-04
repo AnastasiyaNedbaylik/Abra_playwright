@@ -1,17 +1,17 @@
 const { expect } = require('@playwright/test')
 import { generateRandomEmail, generateRandomPassword } from '../utilities/data';
-import { selectors } from '../locators/register_page';
+import { register_page } from '../locators/register_page';
 import { urls } from '../utilities/settings';
 
 
 exports.RegisterPage = class RegisterPage{
     constructor(page) {
         this.page = page;
-        this.sign_up_supplier = page.locator(selectors.signUpSupplierButton);
-        this.email_field = page.locator(selectors.emailField);
-        this.password_field = page.locator(selectors.passwordField);
-        this.create_account_btn = page.locator(selectors.createAccountButton);
-        this.successMessageSelector = selectors.successMessageSelector;
+        this.sign_up_supplier = page.locator(register_page.signUpSupplierButton);
+        this.email_field = page.locator(register_page.emailField);
+        this.password_field = page.locator(register_page.passwordField);
+        this.create_account_btn = page.locator(register_page.createAccountButton);
+        this.successMessageSelector = register_page.successMessageSelector;
       }
 
       async open_registration_page() {
@@ -83,15 +83,6 @@ exports.RegisterPage = class RegisterPage{
             await this.page.waitForTimeout(300);
         }
       }
-    
-    //   async register_with_existing_email(existingEmail) {
-    //     console.log(`Attempting to register with existing email: ${existingEmail}`);
-    //     await this.email_field.focus();
-    //     await this.email_field.fill(existingEmail);
-    //     await this.fill_password(generateRandomPassword());
-    //     await this.create_supplier_account();
-    //     await expect(this.page.getByText('Email is already registered')).toBeVisible();
-    //   }
 
       async create_supplier_account() {
         await this.create_account_btn.click();
