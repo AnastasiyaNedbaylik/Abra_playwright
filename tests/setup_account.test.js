@@ -14,6 +14,7 @@ test('set up account on the 1st step', async ({page}) => {
     await SetupAccount.fill_first_name_field();
     await SetupAccount.fill_last_name_field();
     await SetupAccount.fill_phone_number_field();
-    await SetupAccount.click_continue_btn()
-    await expect(page).toHaveURL(urls.setup_personal_info_page);
+    await SetupAccount.click_continue_btn();
+    await expect(page).toHaveURL(urls.setup_business_info_page);
+    await SetupAccount.fill_company_or_store_name_field();
 });

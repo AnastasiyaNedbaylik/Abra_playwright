@@ -48,11 +48,19 @@ exports.SetupAccountPage = class SetUpAccountPage{
     async click_continue_btn() {
         await this.continue_btn.click();
         try {
-            await this.page.waitForURL(urls.setup_personal_info_page, { timeout: 20000 });
-            await this.page.waitForSelector(this.company_or_store_name_field, { timeout: 20000 });
+            await this.page.waitForURL(urls.setup_business_info_page, { timeout: 20000 });
+            await this.page.waitForSelector(setup_account_page.company_or_store_name_field, { timeout: 20000 });
         } catch (e) {
             console.log('Set up account on the 1st step failed or expectations were not met within the allotted time:', e);
         }
     }
 
+    async fill_company_or_store_name_field() {
+        const storeName = generateRandomFirstName();
+        console.log('Generated store name:', storeName);
+        this.company_or_store_name_field.focus();
+        this.company_or_store_name_field.fill(storeName);
+        console.log(`Filled store name: ${storeName}`);
+        await this.page.waitForTimeout(300);
+    }
 }
