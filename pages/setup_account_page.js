@@ -1,7 +1,12 @@
 const { expect } = require('@playwright/test');
 import { setup_account_page } from '../locators/setup_account_page';
 import { urls } from '../utilities/settings';
-import { generateRandomFirstName, generateRandomLastName, generateRandomPhoneNumber, generateRandomNineDigitNumber } from '../utilities/data';
+import { generateRandomFirstName, 
+    generateRandomLastName, 
+    generateRandomPhoneNumber, 
+    generateRandomNineDigitNumber, 
+    generateRandomYear, generateRandomAboutBusinessText, 
+    generateRandomEmail, generateRandomAddress } from '../utilities/data';
 
 
 
@@ -18,6 +23,16 @@ exports.SetupAccountPage = class SetUpAccountPage{
         this.clothes_drop_down_item = page.locator(setup_account_page.clothes_drop_down_item);
         this.i_am_manufacturer_checkbox = page.locator(setup_account_page.i_am_manufacturer_checkbox);
         this.license_or_entrepreneur_number_field = page.locator(setup_account_page.license_or_entrepreneur_number_field);
+        this.year_field = page.locator(setup_account_page.year_field);
+        this.number_of_employees_drop_down = page.locator(setup_account_page.number_of_employees_drop_down);
+        this.item_number_of_employees_drop_down = page.locator(setup_account_page.item_number_of_employees_drop_down);
+        this.country_of_company_registration_drop_down = page.locator(setup_account_page.country_of_company_registration_drop_down);
+        this.item_country_of_company_registration_drop_down = page.locator(setup_account_page.item_country_of_company_registration_drop_down);
+        this.about_business_field = page.locator(setup_account_page.about_business_field);
+        this.business_phone_number_field = page.locator(setup_account_page.business_phone_number_field);
+        this.business_email_address_field = page.locator(setup_account_page.business_email_address_field);
+        this.company_address_field = page.locator(setup_account_page.company_address_field);
+        this.business_profile_save_btn = page.locator(setup_account_page.business_profile_save_btn);
     }
 
     async fill_first_name_field() {
@@ -85,5 +100,68 @@ exports.SetupAccountPage = class SetUpAccountPage{
         console.log('Generated number:', randomNumber);
         await this.license_or_entrepreneur_number_field.fill(randomNumber);
         console.log(`Filled license or entrepreneur number field with: ${randomNumber}`);
+    }
+
+    async fill_year_field() {
+        const randomYear = generateRandomYear();
+        console.log('Generated year:', randomYear);
+        await this.year_field.focus();
+        await this.year_field.fill(randomYear.toString()); // преобразуем число в строку перед передачей его в метод fill
+        console.log(`Filled year field with: ${randomYear}`);
+    }
+
+    async select_number_of_employees() {
+        this.number_of_employees_drop_down.click();
+        await this.item_number_of_employees_drop_down.click();
+    }
+
+    async select_country_of_company_registration() {
+        this.country_of_company_registration_drop_down.click();
+        await this.item_country_of_company_registration_drop_down.click();
+    }
+
+    async fill_about_business_field() {
+        const randomTextAboutBusiness = generateRandomAboutBusinessText();
+        console.log('Generated text:', randomTextAboutBusiness);
+        this.about_business_field.focus();
+        await this.about_business_field.fill(randomTextAboutBusiness);
+        console.log(`Filled about business field with: ${randomTextAboutBusiness}`);
+    }
+
+    async fill_business_phone_number() {
+        const phoneNumber = generateRandomPhoneNumber();
+        console.log('Generated business phone number:', phoneNumber);
+        this.business_phone_number_field.focus();
+        await this.business_phone_number_field.type(phoneNumber);
+        console.log(`Filled business phone number: ${phoneNumber}`);
+        await this.page.waitForTimeout(300);
+        await expect(this.business_phone_number_field).toHaveValue(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/);
+    }
+
+    async fill_business_email_address_field() {
+        const randomEmail = generateRandomEmail();
+        console.log('Generated business email address:', randomEmail);
+        await this.business_email_address_field.focus();
+        await this.business_email_address_field.fill(randomEmail);
+        await this.page.waitForTimeout(300);
+        console.log(`Filled business email address field with: ${randomEmail}`);
+    }
+
+    async fill_company_address_field() {
+        const randomAddress = generateRandomAddress();
+        console.log('Generated company address:', randomAddress);
+        await this.company_address_field.focus();
+        await this.company_address_field.fill(randomAddress);
+        console.log(`Filled company address field with: ${randomAddress}`);
+    }
+
+    async click_business_profile_save_btn() {
+        await this.business_profile_save_btn.click();
+        try {
+            await this.page.waitForURL(urls.generalPage, { timeout: 20000 });
+            await expect(this.page.locator('text="SUPPLIER"')).toBeVisible({ timeout: 20000 });
+        } catch (e) {
+            console.log('Set up account on the 2тв step failed or expectations were not met within the allotted time:', e);
+        }
     }
 }

@@ -96,4 +96,92 @@ export function generateRandomNineDigitNumber() {
   const max = 999999999;
   const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
   return randomNumber.toString();
+};
+
+/**
+ * Генерирует случайный год в диапазоне от 1970 до текущего года.
+ * @returns {number} - Случайный год в диапазоне от 1970 до текущего года.
+ */
+export function generateRandomYear() {
+  const currentYear = new Date().getFullYear();
+  const startYear = 1970;
+  return Math.floor(Math.random() * (currentYear - startYear + 1)) + startYear;
+};
+
+/**
+ * Генерирует случайный текст для поля "About the business".
+ * @returns {string} - Случайный текст для описания бизнеса.
+ */
+export function generateRandomAboutBusinessText() {
+  const descriptors = [
+      'Innovative',
+      'Leading',
+      'Creative',
+      'Sustainable',
+      'Cutting-edge',
+      'Dynamic',
+      'Customer-focused',
+      'High-quality'
+  ];
+
+  const industries = [
+      'technology solutions',
+      'retail services',
+      'consulting',
+      'manufacturing',
+      'digital marketing',
+      'e-commerce',
+      'financial services',
+      'healthcare'
+  ];
+
+  const missionStatements = [
+      'We strive to deliver exceptional value to our customers.',
+      'Our mission is to provide innovative solutions that enhance your business.',
+      'Committed to excellence and customer satisfaction.',
+      'We focus on creating high-quality products and services.',
+      'Our goal is to lead the industry through innovation and sustainability.'
+  ];
+
+  // Randomly select a descriptor, industry, and mission statement
+  const descriptor = descriptors[Math.floor(Math.random() * descriptors.length)];
+  const industry = industries[Math.floor(Math.random() * industries.length)];
+  const missionStatement = missionStatements[Math.floor(Math.random() * missionStatements.length)];
+
+  // Generate the random text
+  return `${descriptor} company specializing in ${industry}. ${missionStatement}`;
+};
+
+/**
+ * Генерирует случайный адрес.
+ * @returns {string} - Случайный адрес.
+ */
+export function generateRandomAddress() {
+  const streets = [
+      'Main St', 'Elm St', 'Maple Ave', 'Oak Dr', 'Pine Ln', 'Cedar Blvd',
+      'Sunset Blvd', 'Broadway', 'Park Ave', 'Fifth Ave'
+  ];
+
+  const cities = [
+      'Springfield', 'Riverside', 'Greenville', 'Madison', 'Franklin', 'Clinton',
+      'Jackson', 'Centerville', 'Brooklyn', 'Shelbyville'
+  ];
+
+  const states = [
+      'CA', 'TX', 'NY', 'FL', 'IL', 'PA', 'OH', 'MI', 'GA', 'NC'
+  ];
+
+  const zipCodes = [
+      '90001', '10001', '33101', '60601', '75201', '19101', '48201', '30301', '98101', '27501'
+  ];
+
+  // Генерация случайных значений
+  const streetNumber = Math.floor(Math.random() * 9999) + 1; // Генерирует номер дома от 1 до 9999
+  const streetName = streets[Math.floor(Math.random() * streets.length)];
+  const city = cities[Math.floor(Math.random() * cities.length)];
+  const state = states[Math.floor(Math.random() * states.length)];
+  const zipCode = zipCodes[Math.floor(Math.random() * zipCodes.length)];
+
+  // Формирование случайного адреса
+  return `${streetNumber} ${streetName}, ${city}, ${state} ${zipCode}`;
 }
