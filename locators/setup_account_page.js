@@ -5,6 +5,7 @@ export const setup_account_page = {
     phone_number_field: '//*[@id="root"]/div/div/div/form/fieldset/div[2]/label/div/input',
     continue_btn: '//*[@id="root"]/div/div/div/form/button',
     //Business Profile
+    profile_logo: '//*[@id="profileLogo"]',
     company_or_store_name_field: '//*[@id="root"]/div/div/div/form/div[1]/div/label[1]/div/input',
     select_business_drop_down: '//*[@id="root"]/div/div/div/form/div[1]/div/label[2]/div/div',
     clothes_drop_down_item: '//*[@id="combobox-list"]/li[1]',

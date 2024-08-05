@@ -1,4 +1,5 @@
 const { expect } = require('@playwright/test');
+const path = require('path');
 import { setup_account_page } from '../locators/setup_account_page';
 import { urls } from '../utilities/settings';
 import { generateRandomFirstName, 
@@ -13,6 +14,7 @@ import { generateRandomFirstName,
 exports.SetupAccountPage = class SetUpAccountPage{
     constructor(page) {
         this.page = page;
+        this.profile_logo = page.locator(setup_account_page.profile_logo);
         this.first_name_field = page.locator(setup_account_page.first_name_field);
         this.last_name_field = page.locator(setup_account_page.last_name_field);
         this.phone_country_drop_down = page.locator(setup_account_page.phone_country_drop_down);
@@ -72,6 +74,20 @@ exports.SetupAccountPage = class SetUpAccountPage{
         } catch (e) {
             console.log('Set up account on the 1st step failed or expectations were not met within the allotted time:', e);
         }
+    }
+     
+    async upload_profile_logo() {
+        // Путь к изображению внутри метода
+        const imagePath = path.join(__dirname, '..', 'tests', 'assets', 'profile-logo.jpg');
+
+        // Загрузка изображения в поле
+        await this.profile_logo.setInputFiles(imagePath);
+
+        // Опционально: проверка, что изображение загружено успешно
+        // Например, проверка наличия превью изображения или другого подтверждения
+        // Ожидайте появления какого-либо визуального подтверждения
+        // Например:
+        // await expect(this.page.locator('selector-for-image-preview')).toBeVisible();
     }
 
     async fill_company_or_store_name_field() {

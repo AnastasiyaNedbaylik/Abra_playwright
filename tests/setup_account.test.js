@@ -35,6 +35,7 @@ test('2set up account on the 1st step', async ({page}) => {
     await SetupAccount.fill_phone_number_field();
     await SetupAccount.click_continue_btn();
     await expect(page).toHaveURL(urls.setup_business_info_page);
+    await SetupAccount.upload_profile_logo();
     await SetupAccount.fill_company_or_store_name_field();
     await SetupAccount.select_business();
     await SetupAccount.check_manufacturer_checkbox();
