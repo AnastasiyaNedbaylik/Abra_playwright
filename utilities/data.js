@@ -184,4 +184,4 @@ export function generateRandomAddress() {
 
   // Формирование случайного адреса
   return `${streetNumber} ${streetName}, ${city}, ${state} ${zipCode}`;
-}
+};

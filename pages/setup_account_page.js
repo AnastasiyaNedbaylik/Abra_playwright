@@ -78,7 +78,7 @@ exports.SetupAccountPage = class SetUpAccountPage{
      
     async upload_profile_logo() {
         // Путь к изображению внутри метода
-        const imagePath = path.join(__dirname, '..', 'tests', 'assets', 'profile-logo.jpg');
+        const imagePath = path.join(__dirname, '..', 'tests', 'assets', 'profile-logo4.png');
 
         // Загрузка изображения в поле
         await this.profile_logo.setInputFiles(imagePath);

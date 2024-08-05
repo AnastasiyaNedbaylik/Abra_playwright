@@ -63,7 +63,7 @@ test('register with invalid email', async ({ page }) => {
     await register.open_registration_page();
     await register.click_sign_up_supplier();
     await register.fill_email_with_invalid_emails(invalidEmails);
-    console.log(`Test failed with email: ${invalidEmails}`);
+    console.log(`Test completed with email: ${invalidEmails}`);
 });
 
 test('register with invalid password', async ({page}) => {
