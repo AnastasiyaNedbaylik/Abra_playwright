@@ -5,8 +5,8 @@ exports.Mailinator = class TempMailPage {
   constructor(apiToken, domain, inbox) {
     this.baseUrl = 'https://mailinator.com/api/v2'; // URL для Mailinator API
     this.apiToken = apiToken; // API токен
-    this.domain = domain; // Ваш домен
-    this.inbox = inbox; // Ваш почтовый ящик
+    this.domain = domain; // Домен
+    this.inbox = inbox; // Почтовый ящик
     this.emailAddress = null;
   }
 

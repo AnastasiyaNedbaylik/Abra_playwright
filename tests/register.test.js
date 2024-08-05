@@ -108,7 +108,7 @@ test('register and login with same credentials', async ({ page }) => {
     console.log(`Registered and logged in with email: ${email} and password: ${password}`);
 });
 
-// Второй вариант тест с использованием Mailinator
+// Второй вариант теста с использованием Mailinator
 test('2open temporary email and parse registration link', async ({ page }) => {
     const tempMail = new Mailinator('3f0ed6586c524d9ba675def8acd3940b', 'anastasiyateam.testinator.com', 'testinbox'); // Ваш API токен и настройки
   
