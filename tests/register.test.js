@@ -16,7 +16,7 @@ test('registration_positive', async ({page}) => {
     await Register.fill_email_valid();
     await Register.fill_password_valid();
     await Register.create_supplier_account2();
-    // await expect(page).toHaveURL('/check_email$/');
+    // await expect(page).toCont('/check_email$/'); // доделать
     await expect(page).toHaveURL(urls.checkEmailPage);
     // await expect(page).getByText('A link for sign up has been sent to your email address.').toBeVisible();
 });

@@ -23,7 +23,7 @@ test('set up account on the 1st step', async ({page}) => {
 });
 
 // Второй вариант теста с использованием Mailinator
-test('2set up account (2 steps)', async ({page}) => {
+test('v2. set up account (2 steps)', async ({page}) => {
     //Register and login with same credentials
     const { email, password } = await register_and_login2(page);
     console.log(`Registered and logged in with email: ${email} and password: ${password}`);
