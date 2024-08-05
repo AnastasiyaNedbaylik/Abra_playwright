@@ -1,4 +1,4 @@
-const { faker } = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker'); // нужно обновить до более новой версии
 
 /**
  * Случайный адрес электронной почты.
@@ -86,3 +86,14 @@ export function generateRandomPhoneNumber() {
   // Генерируем случайный номер телефона без префикса
   return faker.phone.number('9#########');
 };
+
+/**
+ * Генерирует случайное число из 9 цифр.
+ * @returns {string} - Случайное 9-значное число в виде строки.
+ */
+export function generateRandomNineDigitNumber() {
+  const min = 100000000;
+  const max = 999999999;
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomNumber.toString();
+}

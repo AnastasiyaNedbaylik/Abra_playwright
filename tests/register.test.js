@@ -1,10 +1,11 @@
 const { test, expect } = require('@playwright/test')
 const { RegisterPage } = require('../pages/register_page')
 const { TempMailPage } = require('../utilities/temp_mail')
+const { Mailinator } = require('../utilities/temp_mail2')
 import { invalidEmails, invalidPasswords } from '../utilities/data';
 import { urls } from '../utilities/settings';
 import { registerUser } from '../utilities/register_page/registration';
-const { register_and_login } = require('../utilities/login_page/login');
+const { register_and_login, register_and_login2 } = require('../utilities/login_page/login');
 
 
 test('registration_positive', async ({page}) => {
@@ -104,5 +105,45 @@ test('register with existing email', async ({ page }) => {
 
 test('register and login with same credentials', async ({ page }) => {
     const { email, password } = await register_and_login(page);
+    console.log(`Registered and logged in with email: ${email} and password: ${password}`);
+});
+
+// Второй вариант тест с использованием Mailinator
+test('2open temporary email and parse registration link', async ({ page }) => {
+    const tempMail = new Mailinator('3f0ed6586c524d9ba675def8acd3940b', 'anastasiyateam.testinator.com', 'testinbox'); // Ваш API токен и настройки
+  
+    // Создаем временную почту
+    const emailAddress = await tempMail.createTemporaryEmail();
+    console.log('Temporary email address:', emailAddress);
+  
+    // Регистрация на сайте
+    const registration = new RegisterPage(page);
+  
+    await registration.open_registration_page();
+    await registration.click_sign_up_supplier();
+    await registration.fill_email_to_get_invite_link(emailAddress);
+    await registration.fill_password_valid();
+    await registration.create_supplier_account2();
+    await expect(page).toHaveURL(urls.checkEmailPage);
+  
+    // Ожидание письма в почтовом ящике
+    const emailDetails = await tempMail.waitForEmail();
+    console.log('Email details:', emailDetails);
+  
+    // Найти ссылку на регистрацию в письме
+    const registrationLink = tempMail.parseRegistrationLink(emailDetails);
+    console.log('Registration link:', registrationLink);
+  
+    // Перейти по ссылке на регистрацию
+    await page.goto(registrationLink);
+  
+    // Продолжить тестирование на странице регистрации...
+    await page.waitForTimeout(5000);
+    await expect(page.locator('text=Email confirmed.')).toBeVisible();
+    console.log('Test completed: Email confirmed.');
+  });
+
+  test('2register and login with same credentials', async ({ page }) => {
+    const { email, password } = await register_and_login2(page);
     console.log(`Registered and logged in with email: ${email} and password: ${password}`);
 });

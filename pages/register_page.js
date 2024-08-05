@@ -126,4 +126,5 @@ exports.RegisterPage = class RegisterPage{
         await this.email_confirmed_page_login_link.click();
         await expect(this.page.locator(login_page.email_field)).toBeVisible();
     }
+    
     }

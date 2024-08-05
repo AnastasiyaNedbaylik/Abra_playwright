@@ -17,4 +17,7 @@ test('set up account on the 1st step', async ({page}) => {
     await SetupAccount.click_continue_btn();
     await expect(page).toHaveURL(urls.setup_business_info_page);
     await SetupAccount.fill_company_or_store_name_field();
+    await SetupAccount.select_business();
+    await SetupAccount.check_manufacturer_checkbox();
+    await SetupAccount.fill_license_or_entrepreneur_number_field();
 });

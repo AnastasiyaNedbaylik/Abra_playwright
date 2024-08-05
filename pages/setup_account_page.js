@@ -1,7 +1,7 @@
 const { expect } = require('@playwright/test');
 import { setup_account_page } from '../locators/setup_account_page';
 import { urls } from '../utilities/settings';
-import { generateRandomFirstName, generateRandomLastName, generateRandomPhoneNumber } from '../utilities/data';
+import { generateRandomFirstName, generateRandomLastName, generateRandomPhoneNumber, generateRandomNineDigitNumber } from '../utilities/data';
 
 
 
@@ -14,7 +14,11 @@ exports.SetupAccountPage = class SetUpAccountPage{
         this.phone_number_field = page.locator(setup_account_page.phone_number_field);
         this.continue_btn = page.locator(setup_account_page.continue_btn);
         this.company_or_store_name_field = page.locator(setup_account_page.company_or_store_name_field);
-      }
+        this.select_business_drop_down = page.locator(setup_account_page.select_business_drop_down);
+        this.clothes_drop_down_item = page.locator(setup_account_page.clothes_drop_down_item);
+        this.i_am_manufacturer_checkbox = page.locator(setup_account_page.i_am_manufacturer_checkbox);
+        this.license_or_entrepreneur_number_field = page.locator(setup_account_page.license_or_entrepreneur_number_field);
+    }
 
     async fill_first_name_field() {
         const firstName = generateRandomFirstName();
@@ -62,5 +66,24 @@ exports.SetupAccountPage = class SetUpAccountPage{
         this.company_or_store_name_field.fill(storeName);
         console.log(`Filled store name: ${storeName}`);
         await this.page.waitForTimeout(300);
+    }
+
+    async select_business() {
+        await this.select_business_drop_down.click();
+        await this.clothes_drop_down_item.click();
+        console.log(`Selected business: Clothes`);
+      }
+
+    async check_manufacturer_checkbox() {
+        await this.i_am_manufacturer_checkbox.check();
+        const isChecked = await this.i_am_manufacturer_checkbox.isChecked(); //проверить, что чекбокс нажат
+        expect(isChecked).toBe(true); //проверить, что чекбокс нажат
+      }  
+    
+    async fill_license_or_entrepreneur_number_field() {
+        const randomNumber = generateRandomNineDigitNumber();
+        console.log('Generated number:', randomNumber);
+        await this.license_or_entrepreneur_number_field.fill(randomNumber);
+        console.log(`Filled license or entrepreneur number field with: ${randomNumber}`);
     }
 }
