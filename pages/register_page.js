@@ -28,6 +28,10 @@ exports.RegisterPage = class RegisterPage{
         await this.page.waitForTimeout(300);
       }
     
+      async focus_email_field() {
+        await this.email_field.focus();
+      }
+
       async fill_email(email) {
         await this.email_field.focus();
         await this.email_field.fill(email);
@@ -48,7 +52,10 @@ exports.RegisterPage = class RegisterPage{
         await this.email_field.fill(email);
         await this.page.waitForTimeout(100);
       }
-    
+    async password_field_focus() {
+      await this.password_field.focus();
+    }
+
       //Использование рандомного валидного пароля
       async fill_password_valid() {
         const randomPassword = generateRandomPassword();
